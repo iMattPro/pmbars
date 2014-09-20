@@ -14,6 +14,7 @@
 	border-radius: 3px;
 	background-image: url('images/stripes.png');
 	background-repeat: repeat;
+	display: inline-block;
 }
 
 .normal-bar {
@@ -22,4 +23,8 @@
 
 .danger-bar {
 	background-color: #f08080;
+}
+
+.rtl #pm-bar {
+	text-align: right;
 }
