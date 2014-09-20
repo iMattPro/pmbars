@@ -1,6 +1,6 @@
-# Private Messages Progress Bars for phpBB 3.1
+## Private Messages Progress Bars for phpBB 3.1
 
-This extension adds a graphical representation to private message boxes of the space used/remaining.
+This extension adds a graphical representation to private message boxes of the space used/remaining. Supports Prosilver and Prosilver-child styles.
 
 ## Requirements
 * phpBB 3.1.0-RC3 or higher
