@@ -1,0 +1,39 @@
+<!-- IF FOLDER_PERCENT -->
+<script>
+
+(function($) {  // Avoid conflicts with other libraries
+
+'use strict';
+
+$(function() {
+	var settings = {
+		percent: {FOLDER_PERCENT},
+		dangerZone: 80,
+		speed: 1000
+	};
+
+	// Insert pmbar object into DOM
+	$('#viewfolder')
+		.find('p')
+		.filter(':first')
+		.after('<div id="pm-bar"><div id="pm-bar-inner"></div></div>')
+	;
+
+	// Style pmbar and animate on first load using sessionStorage
+	var pmInnerBar = $('#pm-bar-inner');
+	pmInnerBar.addClass((settings.percent > settings.dangerZone) ? 'danger-bar' : 'normal-bar');
+	if (typeof(Storage) !== 'undefined' && sessionStorage.getItem('pmbar') == 'run') {
+		pmInnerBar.css('width', settings.percent + '%');
+	} else {
+		pmInnerBar.animate({
+			width: settings.percent + '%'
+		}, settings.speed, function() {
+			sessionStorage.setItem('pmbar', 'run');
+		});
+	}
+});
+
+})(jQuery);
+
+</script>
+<!-- ENDIF -->
