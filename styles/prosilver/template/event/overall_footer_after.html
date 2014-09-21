@@ -5,32 +5,53 @@
 
 'use strict';
 
-$(function() {
-	var settings = {
+// https://mathiasbynens.be/notes/localstorage-pattern
+// Feature detect + session reference
+var storage = (function() {
+	var uid = new Date();
+	var storage;
+	var result;
+	try {
+		(storage = window.sessionStorage).setItem(uid, uid);
+		result = storage.getItem(uid) == uid;
+		storage.removeItem(uid);
+		return result && storage;
+	} catch (exception) {}
+}());
+
+// Style pmbar and animate on first load using sessionStorage
+$.fn.showBar = function(options) {
+
+	var settings = $.extend({
 		percent: {FOLDER_PERCENT},
 		dangerZone: 80,
 		speed: 1000
-	};
+	}, options);
 
+	this.addClass((settings.percent > settings.dangerZone) ? 'danger-bar' : 'normal-bar');
+
+	if (storage && storage.getItem('pmbar')) {
+		this.css('width', settings.percent + '%');
+	} else {
+		this.animate({
+			width: settings.percent + '%'
+		}, settings.speed, function() {
+			if (storage) storage.setItem('pmbar', 'pmbar');
+		});
+	}
+
+	return this;
+};
+
+// DOM Ready
+$(function() {
 	// Insert pmbar object into DOM
 	$('#viewfolder')
 		.find('p')
 		.filter(':first')
 		.after('<div id="pm-bar"><div id="pm-bar-inner"></div></div>')
 	;
-
-	// Style pmbar and animate on first load using sessionStorage
-	var pmInnerBar = $('#pm-bar-inner');
-	pmInnerBar.addClass((settings.percent > settings.dangerZone) ? 'danger-bar' : 'normal-bar');
-	if (typeof(Storage) !== 'undefined' && sessionStorage.getItem('pmbar') == 'run') {
-		pmInnerBar.css('width', settings.percent + '%');
-	} else {
-		pmInnerBar.animate({
-			width: settings.percent + '%'
-		}, settings.speed, function() {
-			sessionStorage.setItem('pmbar', 'run');
-		});
-	}
+	$('#pm-bar-inner').showBar();
 });
 
 })(jQuery);
