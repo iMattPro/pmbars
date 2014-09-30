@@ -3,48 +3,50 @@
 
 (function($) {  // Avoid conflicts with other libraries
 
-'use strict';
+	'use strict';
 
-// https://mathiasbynens.be/notes/localstorage-pattern
-// Feature detect + session reference
-var storage = (function() {
-	var uid = new Date();
-	var storage;
-	var result;
-	try {
-		(storage = window.sessionStorage).setItem(uid, uid);
-		result = storage.getItem(uid) == uid;
-		storage.removeItem(uid);
-		return result && storage;
-	} catch (exception) {}
-}());
+	/*
+	 * Feature detect sessionStorage
+	 * https://mathiasbynens.be/notes/localstorage-pattern
+	 */
+	var storage = (function() {
+		var uid = new Date();
+		var storage;
+		var result;
+		try {
+			(storage = window.sessionStorage).setItem(uid, uid);
+			result = storage.getItem(uid) == uid;
+			storage.removeItem(uid);
+			return result && storage;
+		} catch (exception) {}
+	}());
 
-// Style pmbar and animate on first load using sessionStorage
-$.fn.showBar = function() {
+	/*
+	 * Stylize bar and animate on first load using sessionStorage
+	 */
+	$.fn.showBar = function() {
 
-	var settings = {
-		percent: {FOLDER_PERCENT},
-		dangerZone: 80,
-		speed: 1000
+		var settings = {
+			percent: {FOLDER_PERCENT},
+			dangerZone: 80,
+			speed: 1000
+		};
+
+		this.addClass((settings.percent > settings.dangerZone) ? 'danger-bar' : 'normal-bar');
+
+		if (storage && storage.getItem('pmbar')) {
+			this.css('width', settings.percent + '%');
+		} else {
+			this.animate({
+				width: settings.percent + '%'
+			}, settings.speed, function() {
+				if (storage) storage.setItem('pmbar', 'pmbar');
+			});
+		}
+
+		return this;
 	};
 
-	this.addClass((settings.percent > settings.dangerZone) ? 'danger-bar' : 'normal-bar');
-
-	if (storage && storage.getItem('pmbar')) {
-		this.css('width', settings.percent + '%');
-	} else {
-		this.animate({
-			width: settings.percent + '%'
-		}, settings.speed, function() {
-			if (storage) storage.setItem('pmbar', 'pmbar');
-		});
-	}
-
-	return this;
-};
-
-// DOM Ready
-$(function() {
 	// Insert pmbar object into DOM
 	$('#viewfolder')
 		.find('p')
@@ -52,7 +54,6 @@ $(function() {
 		.after('<div id="pm-bar"><div id="pm-bar-inner"></div></div>')
 	;
 	$('#pm-bar-inner').showBar();
-});
 
 })(jQuery);
 
