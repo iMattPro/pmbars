@@ -21,11 +21,11 @@
 		"display-name": "Private Messages Progress Bars",
 		"soft-require": {
 			"phpbb/phpbb": ">=3.1.0-RC3,<3.2.*@dev"
+		},
+		"version-check": {
+			"host": "vsephpbb.github.io",
+			"directory": "/pmbars",
+			"filename": "version.json"
 		}
-	},
-	"version-check": {
-		"host": "vsephpbb.github.io",
-		"directory": "/pmbars",
-		"filename": "version.json"
 	}
 }
