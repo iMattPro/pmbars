@@ -24,8 +24,8 @@
 		},
 		"version-check": {
 			"host": "vsephpbb.github.io",
-			"directory": "/pmbars",
-			"filename": "version.json"
+			"directory": "/version",
+			"filename": "pmbars.json"
 		}
 	}
 }
