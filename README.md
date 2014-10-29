@@ -1,4 +1,4 @@
-## Private Messages Progress Bars for phpBB 3.1
+## ![alt text](http://forum.mattfriedman.me/images/pmbars.png "pmbars") Private Message Box Status Bars for phpBB 3.1
 
 This extension adds a graphical representation to private message boxes of the space used/remaining. Supports Prosilver and Prosilver-child styles.
 
@@ -12,11 +12,11 @@ Note: This extension is in development. Installation is only recommended for tes
 1. [Download the latest release](https://github.com/VSEphpbb/pmbars/releases) and unzip it.
 2. Copy the entire contents from the unzipped folder to `phpBB/ext/vse/pmbars/`.
 3. Navigate in the ACP to `Customise -> Manage extensions`.
-4. Find Private Messages Progress Bars under "Disabled Extensions" and click `Enable`.
+4. Find Private Message Box Status Bars under "Disabled Extensions" and click `Enable`.
 
 ## Uninstallation
 1. Navigate in the ACP to `Customise -> Manage extensions`.
-2. Click the `Disable` link for Private Messages Progress Bars.
+2. Click the `Disable` link for Private Message Box Status Bars.
 3. To permanently uninstall, click `Delete Data`, then delete the `pmbars` folder from `phpBB/ext/vse/`.
 
 ## License
