@@ -1,31 +1,38 @@
 {
-	"name": "vse/pmbars",
-	"type": "phpbb-extension",
-	"description": "Adds a graphical representation to private message boxes of the space used/remaining.",
-	"homepage": "https://github.com/VSEphpbb/pmbars",
-	"version": "2.0.0",
-	"keywords": ["phpbb", "extension", "private", "messages", "status", "bars"],
-	"license": "GPL-2.0",
-	"authors": [
-		{
-			"name": "Matt Friedman (VSE)",
-			"homepage": "http://mattfriedman.me",
-			"role": "Developer"
-		}
-	],
-	"require": {
-		"php": ">=5.3.3",
-		"composer/installers": "~1.0"
-	},
-	"extra": {
-		"display-name": "Private Message Box Status Bars",
-		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0-RC3,<3.2.*@dev"
-		},
-		"version-check": {
-			"host": "vsephpbb.github.io",
-			"directory": "/version",
-			"filename": "pmbars.json"
-		}
-	}
+    "name": "vse/pmbars",
+    "type": "phpbb-extension",
+    "description": "Adds a graphical representation to private message boxes of the space used/remaining.",
+    "homepage": "https://github.com/VSEphpbb/pmbars",
+    "version": "2.0.0",
+    "keywords": [
+        "phpbb",
+        "extension",
+        "private",
+        "messages",
+        "status",
+        "bars"
+    ],
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Matt Friedman (VSE)",
+            "homepage": "http://mattfriedman.me",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "display-name": "Private Message Box Status Bars",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.1.0-RC3,<3.2.*@dev"
+        },
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/pm_box_status_bars",
+            "filename": "version_check"
+        }
+    }
 }
