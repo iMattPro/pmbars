@@ -5,10 +5,8 @@
 
 	'use strict';
 
-	/*
-	 * Feature detect sessionStorage
-	 * https://mathiasbynens.be/notes/localstorage-pattern
-	 */
+	// Feature detect sessionStorage
+	// https://mathiasbynens.be/notes/localstorage-pattern
 	var storage = (function() {
 		var uid = new Date();
 		var storage;
@@ -21,9 +19,7 @@
 		} catch (exception) {}
 	}());
 
-	/*
-	 * Stylize bar and animate on first load using sessionStorage
-	 */
+	// Stylize bar and animate on first load using sessionStorage
 	$.fn.showBar = function() {
 
 		var settings = {
@@ -32,7 +28,7 @@
 			speed: 1000
 		};
 
-		this.addClass((settings.percent > settings.dangerZone) ? 'danger-bar' : 'normal-bar');
+		this.addClass((settings.percent > settings.dangerZone) ? 'pmbars-danger-bar' : 'pmbars-normal-bar');
 
 		if (storage && storage.getItem('pmbar')) {
 			this.css('width', settings.percent + '%');
@@ -48,12 +44,15 @@
 	};
 
 	// Insert pmbar object into DOM
+	var $outer = $('<div class="pmbars-outer" />');
+	var $inner = $('<div class="pmbars-inner" />');
+
 	$('#viewfolder')
 		.find('p')
 		.filter(':first')
-		.after('<div id="pm-bar"><div id="pm-bar-inner"></div></div>')
+		.after($outer)
 	;
-	$('#pm-bar-inner').showBar();
+	$inner.appendTo($outer).showBar();
 
 })(jQuery);
 
