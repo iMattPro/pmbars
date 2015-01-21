@@ -3,7 +3,7 @@
 This phpBB 3.1 extension adds a graphical representation to private message boxes of the space used/remaining. Supports Prosilver and Prosilver-child styles.
 
 ## Requirements
-* phpBB 3.1.0-RC3 or higher
+* phpBB 3.1.2 or higher
 * PHP 5.3.3 or higher
 
 ## Installation
