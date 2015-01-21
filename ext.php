@@ -8,14 +8,14 @@
  *
  */
 
-namespace vse\browsehappy;
+namespace vse\pmbars;
 
 /**
  * Extension class for custom enable/disable/purge actions
  */
 class ext extends \phpbb\extension\base
 {
-	/** @var Require 3.1.2 due to updated INCLUDECSS syntax */
+	/** @var string Require 3.1.2 due to updated INCLUDECSS syntax */
 	const PHPBB_VERSION = '3.1.2';
 
 	/**
