@@ -12,8 +12,7 @@
 	height: 100%;
 	border: 0;
 	border-radius: 3px;
-	background-image: url('images/stripes.png');
-	background-repeat: repeat;
+	background: url('images/stripes.png') repeat;
 	display: inline-block;
 }
 
