@@ -1,7 +1,7 @@
 {
 	"name": "vse/pmbars",
 	"type": "phpbb-extension",
-	"description": "Adds a graphical representation to private message boxes of the space used/remaining.",
+	"description": "A phpBB extension that adds a graphical representation to private message boxes of the space used/remaining.",
 	"homepage": "https://github.com/VSEphpbb/pmbars",
 	"version": "2.0.2-dev",
 	"keywords": ["phpbb", "extension", "private", "messages", "status", "bars"],
