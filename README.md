@@ -1,4 +1,4 @@
-## ![pmbars](http://forum.mattfriedman.me/images/pmbars.png "pmbars") Private Message Box Status Bars for phpBB
+## ![pmbars](http://vsephpbb.github.io/logo/pmbars.png "pmbars") Private Message Box Status Bars for phpBB
 
 This phpBB extension adds a graphical representation to private message boxes of the space used/remaining. Supports Prosilver and Prosilver-child styles.
 
@@ -20,4 +20,4 @@ This phpBB extension adds a graphical representation to private message boxes of
 ## License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
 
-© 2014 - Matt Friedman (VSE)
+© 2014 - Matt Friedman
