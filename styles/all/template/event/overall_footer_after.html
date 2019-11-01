@@ -7,17 +7,16 @@
 
 	// Feature detect sessionStorage
 	// https://mathiasbynens.be/notes/localstorage-pattern
-	var storage = (function() {
-		var uid = new Date();
-		var storage;
-		var result;
-		try {
-			(storage = window.sessionStorage).setItem(uid, uid);
-			result = storage.getItem(uid) == uid;
-			storage.removeItem(uid);
-			return result && storage;
-		} catch (exception) {}
-	}());
+	var storage;
+	var fail;
+	var uid;
+	try {
+		uid = new Date;
+		(storage = window.localStorage).setItem(uid, uid);
+		fail = storage.getItem(uid) != uid;
+		storage.removeItem(uid);
+		fail && (storage = false);
+	} catch (exception) {}
 
 	// Stylize bar and animate on first load using sessionStorage
 	$.fn.showBar = function() {
