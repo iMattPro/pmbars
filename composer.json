@@ -2,14 +2,14 @@
 	"name": "vse/pmbars",
 	"type": "phpbb-extension",
 	"description": "A phpBB extension that adds a graphical representation to private message boxes of the space used/remaining.",
-	"homepage": "https://github.com/VSEphpbb/pmbars",
+	"homepage": "https://github.com/iMattPro/pmbars",
 	"version": "2.0.3-dev",
 	"keywords": ["phpbb", "extension", "private", "messages", "status", "bars"],
 	"license": "GPL-2.0-only",
 	"authors": [
 		{
 			"name": "Matt Friedman",
-			"homepage": "http://vsephpbb.github.io",
+			"homepage": "https://imattpro.github.io",
 			"role": "Developer"
 		}
 	],
