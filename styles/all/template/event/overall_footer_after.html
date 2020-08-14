@@ -12,7 +12,7 @@
 	var uid;
 	try {
 		uid = new Date;
-		(storage = window.localStorage).setItem(uid, uid);
+		(storage = window.sessionStorage).setItem(uid, uid);
 		fail = storage.getItem(uid) != uid;
 		storage.removeItem(uid);
 		fail && (storage = false);
