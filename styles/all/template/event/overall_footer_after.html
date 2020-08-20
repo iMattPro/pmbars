@@ -1,50 +1,36 @@
 {% if FOLDER_PERCENT %}
 <script>
 
-(function($) {  // Avoid conflicts with other libraries
+(function($) {
 
 	'use strict';
 
-	// Feature detect sessionStorage
-	// https://mathiasbynens.be/notes/localstorage-pattern
-	var storage;
-	var fail;
-	var uid;
-	try {
-		uid = new Date;
-		(storage = window.sessionStorage).setItem(uid, uid);
-		fail = storage.getItem(uid) != uid;
-		storage.removeItem(uid);
-		fail && (storage = false);
-	} catch (exception) {}
-
-	// Stylize bar and animate on first load using sessionStorage
 	$.fn.showBar = function() {
 
-		var settings = {
+		const settings = {
+			folder: 'pmbars:{{ CUR_FOLDER_ID }}',
 			percent: {{ FOLDER_PERCENT }},
 			dangerZone: 80,
 			speed: 1000
 		};
 
-		this.addClass((settings.percent > settings.dangerZone) ? 'pmbars-danger-bar' : 'pmbars-normal-bar');
+		this.toggleClass('pmbars-danger', (settings.percent > settings.dangerZone));
 
-		if (storage && storage.getItem('pmbar')) {
+		if (sessionStorage.getItem(settings.folder)) {
 			this.css('width', settings.percent + '%');
 		} else {
 			this.animate({
 				width: settings.percent + '%'
 			}, settings.speed, function() {
-				if (storage) storage.setItem('pmbar', 'pmbar');
+				sessionStorage.setItem(settings.folder, settings.percent);
 			});
 		}
 
 		return this;
 	};
 
-	// Insert pmbar object into DOM
-	var $outer = $('<div class="pmbars-outer" />');
-	var $inner = $('<div class="pmbars-inner" />');
+	const $outer = $('<div class="pmbars-outer" />');
+	const $inner = $('<div class="pmbars-inner" />');
 
 	$('#viewfolder')
 		.find('p')
