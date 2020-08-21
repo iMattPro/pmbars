@@ -3,8 +3,8 @@
 This phpBB extension adds a graphical representation to private message boxes of the space used/remaining. Supports Prosilver and Prosilver-child styles.
 
 ## Minimum Requirements
-* phpBB 3.1.2 or phpBB 3.2.0
-* PHP 5.3.3
+* phpBB 3.1.2 or any newer version
+* PHP 5.3.3 or any newer version
 
 ## Install
 1. [Download the latest validated release](https://www.phpbb.com/customise/db/extension/pm_box_status_bars/).
