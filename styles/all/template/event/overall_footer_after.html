@@ -7,7 +7,7 @@
 
 	$.fn.showBar = function() {
 
-		const settings = {
+		var settings = {
 			folder: 'pmbars:{{ CUR_FOLDER_ID }}',
 			percent: {{ FOLDER_PERCENT }},
 			dangerZone: 80,
@@ -29,14 +29,13 @@
 		return this;
 	};
 
-	const $outer = $('<div class="pmbars-outer" />');
-	const $inner = $('<div class="pmbars-inner" />');
+	var $outer = $('<div class="pmbars-outer" />');
+	var $inner = $('<div class="pmbars-inner" />');
 
 	$('#viewfolder')
 		.find('p')
 		.filter(':first')
-		.after($outer)
-	;
+		.after($outer);
 	$inner.appendTo($outer).showBar();
 
 })(jQuery);
