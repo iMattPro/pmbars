@@ -9,9 +9,7 @@
 
 .pmbars-inner {
 	text-align: right;
-	background-color: #32cd32;
-	background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-	background-size: 20px 20px;
+	background: #32cd32;
 	border-radius: 30px;
 	width: 0;
 	max-width: 100%;
@@ -19,7 +17,9 @@
 }
 
 .pmbars-danger {
-	background-color: #f08080;
+	background: #d31141;
+	background: -webkit-linear-gradient(left, #32cd32 85%, #d31141 95%);
+	background: linear-gradient(to right, #32cd32 85%, #d31141 95%);
 }
 
 .rtl .pmbars-outer {
