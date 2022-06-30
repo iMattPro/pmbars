@@ -8,7 +8,6 @@
 }
 
 .pmbars-inner {
-	text-align: right;
 	background: #32cd32;
 	border-radius: 30px;
 	width: 0;
@@ -22,6 +21,7 @@
 	background: linear-gradient(to right, #32cd32 85%, #d31141 95%);
 }
 
-.rtl .pmbars-outer {
-	text-align: right;
+.rtl .pmbars-danger {
+	background: -webkit-linear-gradient(right, #32cd32 85%, #d31141 95%);
+	background: linear-gradient(to left, #32cd32 85%, #d31141 95%);
 }
