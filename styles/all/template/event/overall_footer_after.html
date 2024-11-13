@@ -1,49 +1,50 @@
 {% if FOLDER_PERCENT %}
 <script>
-
 	(function() {
 		'use strict';
 
-		const showBar = (element) => {
-			const settings = {
-				folder: 'pmbars:{{ CUR_FOLDER_ID }}',
-				percent: {{ FOLDER_PERCENT }}, // Ensure percent is an integer,
-				dangerZone: 80,
-				speed: 1000
-			};
-
-			// Add or remove 'pmbars-danger' class based on the danger zone threshold
-			element.classList.toggle('pmbars-danger', settings.percent > settings.dangerZone);
-
-			if (sessionStorage.getItem(settings.folder)) {
-				element.style.width = `${+settings.percent}%`;
-			} else {
-				// Smoothly animate the width
-				let start = null;
-				const animateWidth = (timestamp) => {
-					if (!start) start = timestamp;
-					const progress = Math.min((timestamp - start) / settings.speed, 1);
-					element.style.width = `${progress * settings.percent}%`;
-
-					if (progress < 1) {
-						requestAnimationFrame(animateWidth);
-					} else {
-						sessionStorage.setItem(settings.folder, settings.percent);
-					}
-				};
-				requestAnimationFrame(animateWidth);
-			}
+		const settings = {
+			folder: 'pmbars:{{ CUR_FOLDER_ID }}',
+			percent: {{ FOLDER_PERCENT }},
+			dangerZone: 80,
+			speed: 1000
 		};
 
-		// Create the outer and inner div elements
+		const showBar = (element) => {
+			if (settings.percent > settings.dangerZone) {
+				element.classList.add('pmbars-danger');
+			}
+
+			const cachedWidth = sessionStorage.getItem(settings.folder);
+			if (cachedWidth) {
+				element.style.width = settings.percent + '%';
+				return;
+			}
+
+			const startTime = performance.now();
+			const animate = () => {
+				const progress = Math.min((performance.now() - startTime) / settings.speed, 1);
+				element.style.width = (progress * settings.percent) + '%';
+
+				if (progress < 1) {
+					requestAnimationFrame(animate);
+				} else {
+					sessionStorage.setItem(settings.folder, settings.percent);
+				}
+			};
+			requestAnimationFrame(animate);
+		};
+
+		const fragment = document.createDocumentFragment();
 		const outerDiv = document.createElement('div');
-		outerDiv.classList.add('pmbars-outer');
-
 		const innerDiv = document.createElement('div');
-		innerDiv.classList.add('pmbars-inner');
-		outerDiv.appendChild(innerDiv);
 
-		// Find the #viewfolder element and insert the bar after the first <p> element
+		outerDiv.className = 'pmbars-outer';
+		innerDiv.className = 'pmbars-inner';
+
+		outerDiv.appendChild(innerDiv);
+		fragment.appendChild(outerDiv);
+
 		const viewFolder = document.getElementById('viewfolder');
 		if (viewFolder) {
 			const firstParagraph = viewFolder.querySelector('p');
