@@ -1,58 +1,58 @@
 {% if FOLDER_PERCENT %}
 <script>
-	(function() {
-		'use strict';
+(function() {
+	'use strict';
 
-		const settings = {
-			folder: 'pmbars:{{ CUR_FOLDER_ID }}',
-			percent: {{ FOLDER_PERCENT }},
-			dangerZone: 80,
-			speed: 1000
-		};
+	const settings = {
+		folder: 'pmbars:{{ CUR_FOLDER_ID }}',
+		percent: {{ FOLDER_PERCENT }},
+		dangerZone: 80,
+		speed: 1000
+	};
 
-		const showBar = (element) => {
-			if (settings.percent > settings.dangerZone) {
-				element.classList.add('pmbars-danger');
-			}
-
-			const cachedWidth = sessionStorage.getItem(settings.folder);
-			if (cachedWidth) {
-				element.style.width = settings.percent + '%';
-				return;
-			}
-
-			const startTime = performance.now();
-			const animate = () => {
-				const progress = Math.min((performance.now() - startTime) / settings.speed, 1);
-				element.style.width = (progress * settings.percent) + '%';
-
-				if (progress < 1) {
-					requestAnimationFrame(animate);
-				} else {
-					sessionStorage.setItem(settings.folder, settings.percent);
-				}
-			};
-			requestAnimationFrame(animate);
-		};
-
-		const fragment = document.createDocumentFragment();
-		const outerDiv = document.createElement('div');
-		const innerDiv = document.createElement('div');
-
-		outerDiv.className = 'pmbars-outer';
-		innerDiv.className = 'pmbars-inner';
-
-		outerDiv.appendChild(innerDiv);
-		fragment.appendChild(outerDiv);
-
-		const viewFolder = document.getElementById('viewfolder');
-		if (viewFolder) {
-			const firstParagraph = viewFolder.querySelector('p');
-			if (firstParagraph) {
-				firstParagraph.insertAdjacentElement('afterend', outerDiv);
-				showBar(innerDiv);
-			}
+	const showBar = (element) => {
+		if (settings.percent > settings.dangerZone) {
+			element.classList.add('pmbars-danger');
 		}
-	})();
+
+		const cachedWidth = sessionStorage.getItem(settings.folder);
+		if (cachedWidth) {
+			element.style.width = settings.percent + '%';
+			return;
+		}
+
+		const startTime = performance.now();
+		const animate = () => {
+			const progress = Math.min((performance.now() - startTime) / settings.speed, 1);
+			element.style.width = (progress * settings.percent) + '%';
+
+			if (progress < 1) {
+				requestAnimationFrame(animate);
+			} else {
+				sessionStorage.setItem(settings.folder, settings.percent);
+			}
+		};
+		requestAnimationFrame(animate);
+	};
+
+	const fragment = document.createDocumentFragment();
+	const outerDiv = document.createElement('div');
+	const innerDiv = document.createElement('div');
+
+	outerDiv.className = 'pmbars-outer';
+	innerDiv.className = 'pmbars-inner';
+
+	outerDiv.appendChild(innerDiv);
+	fragment.appendChild(outerDiv);
+
+	const viewFolder = document.getElementById('viewfolder');
+	if (viewFolder) {
+		const firstParagraph = viewFolder.querySelector('p');
+		if (firstParagraph) {
+			firstParagraph.insertAdjacentElement('afterend', outerDiv);
+			showBar(innerDiv);
+		}
+	}
+})();
 </script>
 {% endif %}
