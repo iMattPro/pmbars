@@ -16,12 +16,9 @@
 }
 
 .pmbars-danger {
-	background: #d31141;
-	background: -webkit-linear-gradient(left, #32cd32 85%, #d31141 95%);
 	background: linear-gradient(to right, #32cd32 85%, #d31141 95%);
 }
 
 .rtl .pmbars-danger {
-	background: -webkit-linear-gradient(right, #32cd32 85%, #d31141 95%);
 	background: linear-gradient(to left, #32cd32 85%, #d31141 95%);
 }
