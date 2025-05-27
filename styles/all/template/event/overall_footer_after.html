@@ -10,48 +10,75 @@
 		speed: 1000
 	};
 
+	let animationFrameId = null;
+
 	const showBar = (element) => {
+		if (!element) return;
+
 		if (settings.percent > settings.dangerZone) {
 			element.classList.add('pmbars-danger');
 		}
 
-		const cachedWidth = sessionStorage.getItem(settings.folder);
-		if (cachedWidth) {
-			element.style.width = settings.percent + '%';
-			return;
-		}
+		try {
+			const cachedWidth = sessionStorage.getItem(settings.folder);
+			const cachedPercent = parseFloat(cachedWidth);
 
-		const startTime = performance.now();
-		const animate = () => {
-			const progress = Math.min((performance.now() - startTime) / settings.speed, 1);
-			element.style.width = (progress * settings.percent) + '%';
+			// Only animate if the value changed or no cache exists
+			if (cachedPercent !== settings.percent) {
+				const startTime = performance.now();
 
-			if (progress < 1) {
-				requestAnimationFrame(animate);
+				const animate = () => {
+					const progress = Math.min((performance.now() - startTime) / settings.speed, 1);
+					element.style.width = (progress * settings.percent) + '%';
+
+					if (progress < 1) {
+						animationFrameId = requestAnimationFrame(animate);
+					} else {
+						sessionStorage.setItem(settings.folder, String(settings.percent));
+					}
+				};
+
+				animationFrameId = requestAnimationFrame(animate);
 			} else {
-				sessionStorage.setItem(settings.folder, settings.percent);
+				// Use cached value directly
+				element.style.width = cachedPercent + '%';
 			}
-		};
-		requestAnimationFrame(animate);
+		} catch (e) {
+			// Fallback for when sessionStorage is unavailable
+			element.style.width = settings.percent + '%';
+			console.warn('Session storage unavailable:', e);
+		}
 	};
 
-	const fragment = document.createDocumentFragment();
-	const outerDiv = document.createElement('div');
-	const innerDiv = document.createElement('div');
-
-	outerDiv.className = 'pmbars-outer';
-	innerDiv.className = 'pmbars-inner';
-
-	outerDiv.appendChild(innerDiv);
-	fragment.appendChild(outerDiv);
-
-	const viewFolder = document.getElementById('viewfolder');
-	if (viewFolder) {
-		const firstParagraph = viewFolder.querySelector('p');
-		if (firstParagraph) {
-			firstParagraph.insertAdjacentElement('afterend', outerDiv);
-			showBar(innerDiv);
+	const cleanup = () => {
+		if (animationFrameId) {
+			cancelAnimationFrame(animationFrameId);
 		}
+	};
+
+	try {
+		const fragment = document.createDocumentFragment();
+		const outerDiv = document.createElement('div');
+		const innerDiv = document.createElement('div');
+
+		outerDiv.className = 'pmbars-outer';
+		innerDiv.className = 'pmbars-inner';
+		outerDiv.appendChild(innerDiv);
+		fragment.appendChild(outerDiv);
+
+		const viewFolder = document.getElementById('viewfolder');
+		if (viewFolder) {
+			const firstParagraph = viewFolder.querySelector('p');
+			if (firstParagraph) {
+				firstParagraph.insertAdjacentElement('afterend', outerDiv);
+				showBar(innerDiv);
+			}
+		}
+
+		// Cleanup on-page unload
+		window.addEventListener('unload', cleanup);
+	} catch (e) {
+		console.error('Error initializing progress bar:', e);
 	}
 })();
 </script>
