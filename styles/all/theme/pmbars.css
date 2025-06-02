@@ -13,6 +13,7 @@
 	width: 0;
 	max-width: 100%;
 	height: 100%;
+	transition: width 1s ease-out;
 }
 
 .pmbars-danger {

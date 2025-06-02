@@ -4,56 +4,9 @@
 	'use strict';
 
 	const settings = {
-		folder: 'pmbars:{{ CUR_FOLDER_ID }}',
-		percent: {{ FOLDER_PERCENT }},
-		dangerZone: 80,
-		speed: 1000
-	};
-
-	let animationFrameId = null;
-
-	const showBar = (element) => {
-		if (!element) return;
-
-		if (settings.percent > settings.dangerZone) {
-			element.classList.add('pmbars-danger');
-		}
-
-		try {
-			const cachedWidth = sessionStorage.getItem(settings.folder);
-			const cachedPercent = parseFloat(cachedWidth);
-
-			// Only animate if the value changed or no cache exists
-			if (cachedPercent !== settings.percent) {
-				const startTime = performance.now();
-
-				const animate = () => {
-					const progress = Math.min((performance.now() - startTime) / settings.speed, 1);
-					element.style.width = (progress * settings.percent) + '%';
-
-					if (progress < 1) {
-						animationFrameId = requestAnimationFrame(animate);
-					} else {
-						sessionStorage.setItem(settings.folder, String(settings.percent));
-					}
-				};
-
-				animationFrameId = requestAnimationFrame(animate);
-			} else {
-				// Use cached value directly
-				element.style.width = cachedPercent + '%';
-			}
-		} catch (e) {
-			// Fallback for when sessionStorage is unavailable
-			element.style.width = settings.percent + '%';
-			console.warn('Session storage unavailable:', e);
-		}
-	};
-
-	const cleanup = () => {
-		if (animationFrameId) {
-			cancelAnimationFrame(animationFrameId);
-		}
+		folder: 'pmbars:{{ CUR_FOLDER_ID|escape('js') }}',
+		percent: Number('{{ FOLDER_PERCENT|escape('js') }}'),
+		dangerZone: 80
 	};
 
 	try {
@@ -63,6 +16,11 @@
 
 		outerDiv.className = 'pmbars-outer';
 		innerDiv.className = 'pmbars-inner';
+
+		if (settings.percent > settings.dangerZone) {
+			innerDiv.classList.add('pmbars-danger');
+		}
+
 		outerDiv.appendChild(innerDiv);
 		fragment.appendChild(outerDiv);
 
@@ -71,12 +29,29 @@
 			const firstParagraph = viewFolder.querySelector('p');
 			if (firstParagraph) {
 				firstParagraph.insertAdjacentElement('afterend', outerDiv);
-				showBar(innerDiv);
+
+				try {
+					const cachedWidth = sessionStorage.getItem(settings.folder);
+					const cachedPercent = parseFloat(cachedWidth);
+
+					if (cachedPercent === settings.percent) {
+						// If the cached value matches, set width immediately
+						innerDiv.style.transition = 'none';
+						innerDiv.classList.add('initialized');
+					} else {
+						// First view or value changed - animate
+						requestAnimationFrame(() => {
+							innerDiv.classList.add('initialized');
+							sessionStorage.setItem(settings.folder, String(settings.percent));
+						});
+					}
+				} catch (e) {
+					// Fallback for when sessionStorage is unavailable
+					innerDiv.classList.add('initialized');
+					console.warn('Session storage unavailable:', e);
+				}
 			}
 		}
-
-		// Cleanup on-page unload
-		window.addEventListener('unload', cleanup);
 	} catch (e) {
 		console.error('Error initializing progress bar:', e);
 	}
