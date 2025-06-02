@@ -3,55 +3,72 @@
 (function() {
 	'use strict';
 
+	const CSS_CLASSES = {
+		OUTER: 'pmbars-outer',
+		INNER: 'pmbars-inner',
+		DANGER: 'pmbars-danger',
+		INITIALIZED: 'pmbars-initialized'
+	};
+
 	const settings = {
 		folder: 'pmbars:{{ CUR_FOLDER_ID|escape('js') }}',
 		percent: Number('{{ FOLDER_PERCENT|escape('js') }}'),
 		dangerZone: 80
 	};
 
-	try {
-		const fragment = document.createDocumentFragment();
+	function createProgressBar() {
 		const outerDiv = document.createElement('div');
 		const innerDiv = document.createElement('div');
 
-		outerDiv.className = 'pmbars-outer';
-		innerDiv.className = 'pmbars-inner';
+		outerDiv.className = CSS_CLASSES.OUTER;
+		innerDiv.className = CSS_CLASSES.INNER;
 
 		if (settings.percent > settings.dangerZone) {
-			innerDiv.classList.add('pmbars-danger');
+			innerDiv.classList.add(CSS_CLASSES.DANGER);
 		}
 
 		outerDiv.appendChild(innerDiv);
-		fragment.appendChild(outerDiv);
+		return {outerDiv, innerDiv};
+	}
 
-		const viewFolder = document.getElementById('viewfolder');
-		if (viewFolder) {
-			const firstParagraph = viewFolder.querySelector('p');
-			if (firstParagraph) {
-				firstParagraph.insertAdjacentElement('afterend', outerDiv);
+	function initializeProgressBar(innerDiv) {
+		try {
+			const cachedWidth = sessionStorage.getItem(settings.folder);
+			const cachedPercent = parseFloat(cachedWidth);
 
-				try {
-					const cachedWidth = sessionStorage.getItem(settings.folder);
-					const cachedPercent = parseFloat(cachedWidth);
-
-					if (cachedPercent === settings.percent) {
-						// If the cached value matches, set width immediately
-						innerDiv.style.transition = 'none';
-						innerDiv.classList.add('initialized');
-					} else {
-						// First view or value changed - animate
-						requestAnimationFrame(() => {
-							innerDiv.classList.add('initialized');
-							sessionStorage.setItem(settings.folder, String(settings.percent));
-						});
-					}
-				} catch (e) {
-					// Fallback for when sessionStorage is unavailable
-					innerDiv.classList.add('initialized');
-					console.warn('Session storage unavailable:', e);
-				}
+			if (cachedPercent === settings.percent) {
+				setImmediateWidth(innerDiv);
+			} else {
+				animateWidth(innerDiv);
 			}
+		} catch (e) {
+			console.warn('Session storage unavailable:', e);
+			innerDiv.classList.add(CSS_CLASSES.INITIALIZED);
 		}
+	}
+
+	function setImmediateWidth(innerDiv) {
+		innerDiv.style.transition = 'none';
+		innerDiv.classList.add(CSS_CLASSES.INITIALIZED);
+	}
+
+	function animateWidth(innerDiv) {
+		requestAnimationFrame(() => {
+			innerDiv.classList.add(CSS_CLASSES.INITIALIZED);
+			sessionStorage.setItem(settings.folder, String(settings.percent));
+		});
+	}
+
+	try {
+		const viewFolder = document.getElementById('viewfolder');
+		if (!viewFolder) return;
+
+		const firstParagraph = viewFolder.querySelector('p');
+		if (!firstParagraph) return;
+
+		const {outerDiv, innerDiv} = createProgressBar();
+		firstParagraph.insertAdjacentElement('afterend', outerDiv);
+		initializeProgressBar(innerDiv);
 	} catch (e) {
 		console.error('Error initializing progress bar:', e);
 	}
