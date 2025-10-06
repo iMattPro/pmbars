@@ -3,75 +3,37 @@
 (function() {
 	'use strict';
 
-	const CSS_CLASSES = {
-		OUTER: 'pmbars-outer',
-		INNER: 'pmbars-inner',
-		DANGER: 'pmbars-danger',
-		INITIALIZED: 'pmbars-initialized'
-	};
-
 	const settings = {
 		folder: 'pmbars:{{ CUR_FOLDER_ID|escape('js') }}',
-		percent: Number('{{ FOLDER_PERCENT|escape('js') }}'),
-		dangerZone: 80
+		percent: Number('{{ FOLDER_PERCENT|escape('js') }}')
 	};
 
-	function createProgressBar() {
-		const outerDiv = document.createElement('div');
-		const innerDiv = document.createElement('div');
+	const viewFolder = document.getElementById('viewfolder');
+	if (!viewFolder) return;
 
-		outerDiv.className = CSS_CLASSES.OUTER;
-		innerDiv.className = CSS_CLASSES.INNER;
+	const firstParagraph = viewFolder.querySelector('p');
+	if (!firstParagraph) return;
 
-		if (settings.percent > settings.dangerZone) {
-			innerDiv.classList.add(CSS_CLASSES.DANGER);
-		}
+	const outerDiv = document.createElement('div');
+	const innerDiv = document.createElement('div');
 
-		outerDiv.appendChild(innerDiv);
-		return {outerDiv, innerDiv};
-	}
+	outerDiv.className = 'pmbars-outer';
+	innerDiv.className = 'pmbars-inner pmbars-initialized{% if FOLDER_PERCENT > 80 %} pmbars-danger{% endif %}';
 
-	function initializeProgressBar(innerDiv) {
-		try {
-			const cachedWidth = sessionStorage.getItem(settings.folder);
-			const cachedPercent = parseFloat(cachedWidth);
-
-			if (cachedPercent === settings.percent) {
-				setImmediateWidth(innerDiv);
-			} else {
-				animateWidth(innerDiv);
-			}
-		} catch (e) {
-			console.warn('Session storage unavailable:', e);
-			innerDiv.classList.add(CSS_CLASSES.INITIALIZED);
-		}
-	}
-
-	function setImmediateWidth(innerDiv) {
-		innerDiv.style.transition = 'none';
-		innerDiv.classList.add(CSS_CLASSES.INITIALIZED);
-	}
-
-	function animateWidth(innerDiv) {
-		requestAnimationFrame(() => {
-			innerDiv.classList.add(CSS_CLASSES.INITIALIZED);
-			sessionStorage.setItem(settings.folder, String(settings.percent));
-		});
-	}
-
+	// Check if animation should be skipped
 	try {
-		const viewFolder = document.getElementById('viewfolder');
-		if (!viewFolder) return;
-
-		const firstParagraph = viewFolder.querySelector('p');
-		if (!firstParagraph) return;
-
-		const {outerDiv, innerDiv} = createProgressBar();
-		firstParagraph.insertAdjacentElement('afterend', outerDiv);
-		initializeProgressBar(innerDiv);
+		const cachedPercent = parseFloat(sessionStorage.getItem(settings.folder));
+		if (cachedPercent === settings.percent) {
+			innerDiv.classList.add('pmbars-no-animate');
+		} else {
+			sessionStorage.setItem(settings.folder, String(settings.percent));
+		}
 	} catch (e) {
-		console.error('Error initializing progress bar:', e);
+		// SessionStorage failed, animation will play normally
 	}
+
+	outerDiv.appendChild(innerDiv);
+	firstParagraph.insertAdjacentElement('afterend', outerDiv);
 })();
 </script>
 {% endif %}
