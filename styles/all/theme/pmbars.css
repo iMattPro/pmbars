@@ -1,7 +1,7 @@
 .pmbars-outer {
 	background-color: #ecedee;
 	border-radius: 30px;
-	overflow-x: hidden;
+	overflow: hidden;
 	width: 100%;
 	height: 8px;
 	margin: -8px 0 8px;
@@ -10,8 +10,6 @@
 .pmbars-inner {
 	background: #28a745;
 	border-radius: 30px;
-	width: 0;
-	max-width: 100%;
 	height: 100%;
 	animation: pmbars-animate 1s ease-out forwards;
 }
