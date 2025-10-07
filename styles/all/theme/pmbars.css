@@ -1,5 +1,5 @@
 .pmbars-outer {
-	background-color: #ebebeb;
+	background-color: #ecedee;
 	border-radius: 30px;
 	overflow-x: hidden;
 	width: 100%;
@@ -8,7 +8,7 @@
 }
 
 .pmbars-inner {
-	background: #32cd32;
+	background: #28a745;
 	border-radius: 30px;
 	width: 0;
 	max-width: 100%;
@@ -27,9 +27,9 @@
 }
 
 .pmbars-danger {
-	background: linear-gradient(to right, #32cd32 85%, #d31141 95%);
+	background: linear-gradient(to right, #28a745 85%, #dc3545 95%);
 }
 
 .rtl .pmbars-danger {
-	background: linear-gradient(to left, #32cd32 85%, #d31141 95%);
+	background: linear-gradient(to left, #28a745 85%, #dc3545 95%);
 }
