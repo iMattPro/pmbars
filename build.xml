@@ -15,6 +15,7 @@
 		-->
 		<delete dir="${dir}/tests" />
 		<delete dir="${dir}/vendor" />
+		<delete dir="${dir}/.github" />
 
 		<delete file="${dir}/.gitignore" />
 		<delete file="${dir}/.gitattributes" />
