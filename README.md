@@ -2,6 +2,8 @@
 
 This phpBB extension adds a graphical representation to private message boxes of the space used/remaining. Supports Prosilver and Prosilver-child styles.
 
+[![Tests](https://github.com/iMattPro/pmbars/actions/workflows/tests.yml/badge.svg)](https://github.com/iMattPro/pmbars/actions/workflows/tests.yml)
+
 ## Minimum Requirements
 * phpBB 3.1.2 or any newer version
 * PHP 5.3.3 or any newer version
