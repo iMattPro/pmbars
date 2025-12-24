@@ -11,17 +11,19 @@
 	background: #28a745;
 	border-radius: 30px;
 	height: 100%;
+	transform: scaleX(0);
+	transform-origin: left;
+	will-change: transform;
 	animation: pmbars-animate 1s ease-out forwards;
 }
 
 .pmbars-inner.pmbars-no-animate {
+	transform: scaleX(1);
 	animation: none;
 }
 
-@keyframes pmbars-animate {
-	from {
-		width: 0;
-	}
+.rtl .pmbars-inner {
+	transform-origin: right;
 }
 
 .pmbars-danger {
@@ -30,4 +32,14 @@
 
 .rtl .pmbars-danger {
 	background: linear-gradient(to left, #28a745 85%, #dc3545 95%);
+}
+
+@keyframes pmbars-animate {
+	from {
+		transform: scaleX(0);
+	}
+
+	to {
+		transform: scaleX(1);
+	}
 }
