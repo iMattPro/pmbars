@@ -17,8 +17,10 @@
 	const outerDiv = document.createElement('div');
 	const innerDiv = document.createElement('div');
 
+	innerDiv.style.width = settings.percent + '%';
+
 	outerDiv.className = 'pmbars-outer';
-	innerDiv.className = 'pmbars-inner pmbars-initialized{% if FOLDER_PERCENT > 80 %} pmbars-danger{% endif %}';
+	innerDiv.className = 'pmbars-inner{% if FOLDER_PERCENT > 80 %} pmbars-danger{% endif %}';
 
 	// Check if animation should be skipped
 	try {
