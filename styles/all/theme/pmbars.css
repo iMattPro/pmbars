@@ -11,10 +11,12 @@
 	background: #28a745;
 	border-radius: 30px;
 	height: 100%;
+	/* stylelint-disable order/properties-order */
 	transform: scaleX(0);
 	transform-origin: left;
 	will-change: transform;
 	animation: pmbars-animate 1s ease-out forwards;
+	/* stylelint-enable order/properties-order */
 }
 
 .pmbars-inner.pmbars-no-animate {
